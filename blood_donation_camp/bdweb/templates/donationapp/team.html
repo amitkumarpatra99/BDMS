@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Our Team</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .header {
+      background-color: #cc0000;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .back-button {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .team-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .team-title {
+      color: #cc0000;
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .team-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .team-card img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .team-card h3 {
+      margin: 10px 0 5px;
+      color: #333;
+    }
+
+    .team-card p {
+      margin: 0;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .footer {
+      background-color: #cc0000;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .back-button {
+        align-self: flex-end;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <img src="{% static 'img/image/b12.jpg' %}" alt="Logo">
+    <a href="{% url 'home' %}" class="back-button"> Back</a>
+  </div>
+
+  <!-- Team Section -->
+  <div style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
+    <p style="font-size: 16px; color: #555; line-height: 1.6;">
+      We are a passionate group of developers, healthcare professionals, and volunteers dedicated to improving public health through technology. Our team is committed to ensuring that every blood request is fulfilled quickly and efficiently, while also spreading awareness about the importance of regular blood donation.
+    </p>
+    <h6 class="team-title" style=" font-size: 14px;">Meet Our Team</h6>
+    <div class="team-grid">
+      <!-- Team Member 1 -->
+      <div class="team-card">
+        <img src="{% static 'img/image/b1.jpeg' %}" alt="Team Member 1">
+        <h3>John Doe</h3>
+        <p>Founder & Director</p>
+      </div>
+
+      <!-- Team Member 2 -->
+      <div class="team-card">
+        <img src="{% static 'img/image/b2.jpg' %}" alt="Team Member 2">
+        <h3>Jane Smith</h3>
+        <p>Operations Head</p>
+      </div>
+
+      <!-- Team Member 3 -->
+      <div class="team-card">
+        <img src="{% static 'img/image/b3.jpg' %}" alt="Team Member 3">
+        <h3>Michael Lee</h3>
+        <p>Logistics Coordinator</p>
+      </div>
+
+      <!-- Team Member 4 -->
+      <div class="team-card">
+        <img src="{% static 'img/image/b4.jpeg' %}" alt="Team Member 4">
+        <h3>Priya Sharma</h3>
+        <p>Receiver Support Manager</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>&copy; 2026 BDMS — Empowering Through Giving</p>
+  </div>
+
+</body>
+</html>

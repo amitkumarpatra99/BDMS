@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static%}
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: red;
+    }
+    
+    h1 {
+        margin: 0;
+        color: white;
+        flex-grow: 1;
+        text-align: center;
+    }
+    
+    .gallery-container {
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .gallery {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .gallery {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>    
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header style="background-color: red; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
+        <!-- Image in the left of the header -->
+        <div class="header-left">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" class="logo" height="50" width="50">
+            </a>
+        </div>
+
+        <!-- Title in the center -->
+        
+        <!-- Back button on the right -->
+        <a href="/" style="color: white; text-decoration: none; font-size: 18px; margin-right: 20px;">Back</a>
+    </header>
+
+    <!-- Gallery Section -->
+    <div class="gallery-container">
+        <div class="gallery">
+            <div class="gallery-item"><img src="{% static 'img/image/b1.jpeg' %}" alt="Image 1"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b2.jpg' %}" alt="Image 2"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b3.jpg' %}" alt="Image 3"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b4.jpeg' %}" alt="Image 4"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b5.jpeg' %}" alt="Image 5"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b6.jpeg' %}" alt="Image 6"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b7.jpeg' %}" alt="Image 7"></div>
+            <div class="gallery-item"><img src="{% static 'img/image/b8.jpeg' %}" alt="Image 8"></div>
+        </div>
+    </div>
+
+ 
+
+</body>
+</html>

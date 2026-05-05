@@ -1,0 +1,272 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: white;
+    }
+
+    .header {
+      background-color: #cc0000;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .back-button {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 30px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .image-section {
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      padding: 10px;
+    }
+
+    .image-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .text-section {
+      flex: 2;
+      min-width: 300px;
+      padding: 10px 20px;
+      color: #333;
+      line-height: 1.6;
+      font-size: 12px;
+      text-align: justify;
+    }
+
+    .text-section h2 {
+      margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .text-section {
+        font-size: 16px;
+        padding: 10px;
+      }
+    }
+    
+    .full-width-paragraph {
+        padding: 0 20px;
+        font-size: 10px;
+        line-height: 1.8;
+        text-align: justify;
+        color: #333;
+    }
+    .slider {
+        position: relative;
+        max-width: 100%;
+        margin-top: 20px;
+      }
+  
+      .slides {
+        display: none;
+      }
+  
+      .slider img {
+        width: 100%;
+        border-radius: 8px;
+      }
+  
+      .dot-container {
+        text-align: center;
+        margin-top: 10px;
+      }
+  
+      .dot {
+        height: 15px;
+        width: 15px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s;
+      }
+  
+      .active {
+        background-color: #333;
+      }
+  
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 24px;
+        color: black;
+        cursor: pointer;
+        background-color: rgba(255,255,255,0.7);
+        padding: 10px;
+        border-radius: 50%;
+      }
+  
+      .left-arrow {
+        left: 10px;
+      }
+  
+      .right-arrow {
+        right: 10px;
+      }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="{% static 'img/image/b12.jpg' %}" alt="Logo">
+    <a href="{% url 'home' %}" class="back-button">Back</a>
+  </div>
+
+  <div class="main">
+    <div class="image-section">
+      <img src="{% static 'img/image/b7.jpeg' %}" alt="Mission Image">
+
+      <div class="slider">
+        <img class="slides" src="{% static 'img/image/b13.jpg' %}" alt="Slide 1">
+        <img class="slides" src="{% static 'img/image/b14.jpg' %}" alt="Slide 2">
+        <img class="slides" src="{% static 'img/image/b15.jpg' %}" alt="Slide 3">
+    
+        <span class="arrow left-arrow" onclick="plusSlides(-1)">&#10094;</span>
+        <span class="arrow right-arrow" onclick="plusSlides(1)">&#10095;</span>
+    
+        <div class="dot-container">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+      </div>
+    </div>
+    <div class="text-section">
+      <h2>Our Mission</h2>
+      <p>
+        Our mission is to save lives by promoting voluntary blood donation, ensuring safe blood supply,
+        and building an efficient network that connects donors with those in need across the region.
+        Through innovation, awareness, and compassion, we aim to make blood accessible to everyone, everywhere.
+      </p>
+
+      <div class="full-width-paragraph">
+        Voluntary blood donation programs – recruitment and retention are about people and community, about understanding them, capturing their interest and influencing their behavior 
+        The main communicating task for both blood donor recruitment and retention should be geared towards getting public understanding about the importance and triggering a response for action. Once a blood donor motivator raises awareness, he or she must motivate and persuade people to donate blood. One key secret of successful blood donor recruitment is to take the beds to the donors as close as possible on their convenient date and time rather than expecting the donors to come to the blood bank. The closer the bed to the potential donor, the stronger is the likelihood of success. This is possible only through outdoor blood donation camps. If the camps are held in a relaxed manner, it can be an enjoyable pleasant experience for all concerned. All over the world, most blood from voluntary blood donors is collected from outdoor camps in rural and urban areas.
+
+In Indian context camps can be organised on holidays or in the evening in residential area or locality based socio-cultural organisations not only in cities or towns, but also in suburbs and villages. The people of all ages assemble either on holidays or at the end of day’s or week’s work and the example of adults donating blood would be a strong teaching and demonstration effect for the children. Even diehard determined non-donors may be expected to donate blood someday if the camps become a regular activity in a particular venue. Camps can be organised in educational institutions, industrial and commercial houses throughout the week. Only all these combined efforts would ensure steady flow of blood in the blood banks. A few blood banks have well equipped mobile blood collection vans fitted with everything including beds, doctor’s chair, wash basin, storage refrigerator and even a small refreshment corner with own power generating unit. These vans are quite costly and cannot negotiate through the roads in suburban areas and villages and are not suitable for mass blood donation camps even in camps with 200 donors. Besides, festive mood of the environment and demonstration effect would not be there. So in Indian context, best method is outdoor camps by carrying blood bank personnel and equipment in a vehicle and pitching the camp in a prefixed well ventilated place.
+
+The outdoor camps in India are and will be organised in places faraway from blood banks. So a checklist of blood collection equipment and instruments should be maintained and carefully checked before the departure of the vehicle from the blood bank. Most of the blood collection items cannot be organised locally. Any omission to carry even a small item may frustrate the noble effort of the donor organisers and the donors.
+
+Advantages of collection of blood from camps:
+
+Intending donors get opportunity to donate according to their
+Convenience
+Familiar faces and known atmosphere help in the shedding of
+Fear complex by the first time donors.
+Community participation.
+Recruits new donors.
+Health status and habits of intending blood donors are known to
+Organisers, quality blood is assured due to self exclusion.
+Demonstration effect.
+Convert non-donor to donor.
+Help in donor retention.
+In camp management and organisations, local organisers have scope of using their imagination to convert the area to a festive mood with decoration, light music rather than the silence inside a hospital blood bank.
+        <!-- You can paste the full remaining content here if you wish -->
+      </p>
+
+      <p>
+        <!-- Continue the rest of your mission paragraph content here -->
+      </p>
+    </div>
+  </div>
+ 
+  <footer style="background-color: #f2f2f2; padding: 30px 20px; margin-top: 40px;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+      
+      <div style="background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 10px; padding: 20px; flex: 1; min-width: 250px; max-width: 400px;">
+        <h3 style="color: #cc0000; margin-top: 0;"> Our Blood Banks</h3>
+        <p style="color: #555; font-size: 14px; text-align: justify;">
+          190203
+        </p>
+      </div>
+
+      <div style="background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 10px; padding: 20px; flex: 1; min-width: 250px; max-width: 400px;">
+        <h3 style="color: #cc0000; margin-top: 0;"> Our Donations</h3>
+        <p style="color: #555; font-size: 14px; text-align: justify;">
+          202345
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+    
+    // Manual controls
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+    
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+    
+    function showSlides(n) {
+      let i;
+      const slides = document.getElementsByClassName("slides");
+      const dots = document.getElementsByClassName("dot");
+    
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+    
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+    
+      for (i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+      }
+    
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].classList.add("active");
+    }
+    
+    // Auto-slide every 3 seconds
+    setInterval(function() {
+      plusSlides(1);
+    }, 3000);
+    </script>
+    
+
+
+</body>
+</html>

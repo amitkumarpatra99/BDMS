@@ -1,0 +1,15 @@
+asgiref==3.8.1
+certifi==2025.1.31
+charset-normalizer==3.4.1
+django-extensions==3.2.3
+django-ranged-response==0.2.0
+django-simple-captcha==0.6.2
+django-widget-tweaks==1.5.0
+Django==5.2
+idna==3.10
+pillow>=12.2.0
+PyMySQL==1.1.1
+requests==2.32.3
+sqlparse==0.5.3
+tzdata==2025.2
+urllib3==2.4.0

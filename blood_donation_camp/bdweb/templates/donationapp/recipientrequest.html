@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>Recipient Request</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-size: 12px;
+    }
+
+    header {
+      background-color: #d9534f;
+      padding: 10px 0;
+    }
+
+    header .nav-link {
+      color: white !important;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    header .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(0, 0, 0, 0.9);
+      min-width: 160px;
+      border-radius: 4px;
+      padding: 6px 0;
+      z-index: 1000;
+    }
+
+    header .dropdown-content a {
+      display: block;
+      padding: 8px 16px;
+      color: white;
+      font-size: 13px;
+    }
+
+    header .dropdown-content a:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    header .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .form-label {
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+
+    .form-control {
+      font-size: 12px;
+      padding: 4px 8px;
+      height: 30px;
+    }
+
+    .form-section {
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-red {
+      background-color: #d9534f;
+      color: white;
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+
+    .btn-red:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="{% url 'home' %}">
+        <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" height="50" width="50">
+      </a>
+      
+      <nav class="nav ms-auto d-flex gap-2">
+        <!-- Menu Dropdowns (same as donor page) -->
+        <div class="dropdown position-relative">
+          <a class="nav-link" href="#">About Us</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="#">Mission</a>
+            <a class="dropdown-item" href="#">Vision</a>
+            <a class="dropdown-item" href="#">Team</a>
+          </div>
+        </div>
+        <div class="dropdown position-relative">
+          <a class="nav-link" href="#">Service</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="#">Blood Stock</a>
+            <a class="dropdown-item" href="{% url 'otp' %}">Camp Schedule</a>
+            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
+            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
+          </div>
+        </div>
+        <div class="dropdown position-relative">
+          <a class="nav-link" href="#">User</a>
+          <div class="dropdown-content">
+            <a class="dropdown-item" href="{% url 'adminlogin' %}">Admin login</a>
+            <a class="dropdown-item" href="{% url 'donorlogin' %}">Donor Login</a>
+            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
+          </div>
+        </div>
+        <div class="dropdown position-relative">
+          <a class="nav-link" href="#">Gallery</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Recipient Form Section -->
+  <div class="container my-4">
+    <div class="form-section" style="max-width: 900px; margin: auto;">
+      <h5 class="text-center text-danger mb-3">Recipient Request Form</h5>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label">Patient Name</label>
+            {{ form.patient_name }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Blood Group</label>
+            {{ form.blood_group }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Units Required</label>
+            {{ form.units_required }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Patient Report</label>
+            {{ form.patient_report }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Photo</label>
+            {{ form.photo }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">ID Proof</label>
+            {{ form.id_proof }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Requisition Form</label>
+            {{ form.requisition_form }}
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Address</label>
+            {{ form.address }}
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-red px-4">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

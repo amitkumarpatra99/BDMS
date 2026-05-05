@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>Donor Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #ffffff; /* White background */
+      font-size: 14px;
+    }
+
+    .header {
+      background-color: #d9534f; /* Red Header */
+      padding: 10px 20px;
+    }
+
+    .header .logo {
+      height: 50px;
+    }
+
+    .header .btn {
+      font-size: 13px;
+      padding: 5px 12px;
+    }
+
+    .dashboard-content {
+      padding: 30px 15px;
+    }
+
+    .btn-red {
+      background-color: #d9534f;
+      color: white;
+    }
+
+    .btn-red:hover {
+      background-color: #c9302c;
+      color: white;
+    }
+
+    .status-pending { color: orange; }
+    .status-accepted { color: green; }
+    .status-rejected { color: red; }
+
+
+    .btn-donate {
+      background-color: #d9534f;
+      color: white;
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+
+    .btn-donate:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" class="logo">
+    
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'donationrequest' %}" class="btn btn-dark btn-sm">Donor request</a>
+      <a href="{% url 'home' %}" class="btn btn-dark btn-sm">Logout</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Body -->
+  <div class="dashboard-content container">
+   
+    <h5 class="text-danger mb-3">My Donation Requests</h5>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Blood Group</th>
+          <th>Age</th>
+          <th>Weight</th>
+          <th>Last Donation</th>
+          <th>Scheduled Date</th>
+          <th>Hospital Report</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+        <tr>
+          <td>{{ req.name }}</td>
+          <td>{{ req.blood_group }}</td>
+          <td>{{ req.age }}</td>
+          <td>{{ req.weight }}</td>
+          <td>{{ req.last_donation_date }}</td>
+          <td>{{ req.requested_scheduleddate }}</td>
+          <td>
+            {% if req.hospital_report %}
+              <a href="{{ req.hospital_report.url }}" target="_blank">View</a>
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+          <td>
+            <span class="status-{{ req.status|lower }}">{{ req.status }}</span>
+            
+            {% if req.status == 'Rejected' and req.rejection_message %}
+              <br>
+              <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="collapse" data-bs-target="#msg{{ req.id }}">
+                <i class="bi bi-envelope"></i> Message
+              </button>
+              <div id="msg{{ req.id }}" class="collapse mt-1 border p-2 bg-light">
+                {{ req.rejection_message }}
+              </div>
+            {% endif %}
+          </td>
+          
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center">No donation requests found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="dashboard-content container">
+    <h5 class="text-center text-danger mb-4">Camp Schedules</h5>
+
+  <table class="table table-bordered blood-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>State</th>
+        <th>District</th>
+        <th>Address</th>
+        
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for camp in camps %}
+      <tr>
+        <td>{{ camp.title }}</td>
+        <td>{{ camp.date }}</td>
+        <td>{{ camp.time }}</td>
+        <td>{{ camp.state }}</td>
+        <td>{{ camp.district }}</td>
+        <td>{{ camp.address }}</td>
+        
+        <td>
+          <a href="{% url 'donationrequest' %}" class="btn btn-sm btn-donate">Request for Donation</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8" class="text-center">No camps available at the moment.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+   
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

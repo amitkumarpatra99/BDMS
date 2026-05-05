@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>Donor Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #ffffff; /* White background */
+      font-size: 14px;
+    }
+
+    .header {
+      background-color: #d9534f; /* Red Header */
+      padding: 10px 20px;
+    }
+
+    .header .logo {
+      height: 50px;
+    }
+
+    .header .btn {
+      font-size: 13px;
+      padding: 5px 12px;
+    }
+
+    .dashboard-content {
+      padding: 30px 15px;
+    }
+
+    .btn-red {
+      background-color: #d9534f;
+      color: white;
+    }
+
+    .btn-red:hover {
+      background-color: #c9302c;
+      color: white;
+    }
+    .btn-donate {
+      background-color: #d9534f;
+      color: white;
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+
+    .btn-donate:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" class="logo">
+    
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{% url 'hospital_request_blood' %}" class="btn btn-dark btn-sm">Hospital request</a>
+      <a href="{% url 'home' %}" class="btn btn-dark btn-sm">Logout</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Body -->
+  <div class="dashboard-content container">
+    <h5 class="text-danger text-center mb-4">Available Blood Stock</h5>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Blood Group</th>
+        <th>Units Available</th>
+        <th>Date Collected</th>
+        <th>Expiry Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for stock in stocks %}
+      <tr>
+        <td>{{ stock.blood_group }}</td>
+        <td>{{ stock.units }}</td>
+        <td>{{ stock.date_collected }}</td>
+        <td>{{ stock.expiry_date }}</td>
+        <td>
+            <a href="{% url 'recipientlogin' %}" class="btn btn-sm btn-donate">Request for Blood</a>
+          </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="text-center">No blood stock available.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="dashboard-content container">
+<h5 class="text-danger mt-4">Your Blood Requests</h5>
+
+{% if hospital_requests %}
+  <table class="table table-bordered table-sm mt-3">
+    <thead class="table-danger text-center">
+      <tr>
+        <th>#</th>
+        <th>Organization</th>
+        <th>Blood Group</th>
+        <th>Units Required</th>
+        <th>Purpose</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for req in hospital_requests %}
+        <tr class="text-center">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ req.organization_name }}</td> 
+          <td>{{ req.blood_group }}</td>
+          <td>{{ req.units_required }}</td>
+          <td>{{ req.purpose }}</td>
+          <td>
+            {% if req.status == 'Approved' %}
+              <span class="badge bg-success">Approved</span>
+            {% elif req.status == 'Rejected' %}
+              <span class="badge bg-danger">Rejected</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </td>
+          
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="text-muted">No blood requests submitted yet.</p>
+{% endif %}
+
+
+
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
