@@ -1,170 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  {% load static %}
-  <meta charset="UTF-8">
-  <title>Enter OTP</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+{% extends 'base.html' %}
+{% load static %}
 
-  <style>
-    body {
-      background-color: #f5f5f5;
-    }
+{% block title %}Admin OTP Verification - Blood Donation Info{% endblock %}
 
-    header {
-      background-color: #d9534f;
-      padding: 10px 0;
-    }
+{% block extra_css %}
+<style>
+  .auth-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: var(--bg-gradient);
+    padding: 60px 0;
+  }
 
-    header .nav-link {
-      color: white !important;
-      font-weight: 500;
-      font-size: 14px;
-      padding: 6px 12px;
-    }
+  .otp-card {
+    background: rgba(255,255,255,0.96);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.85);
+    box-shadow: var(--glass-shadow);
+    padding: 40px;
+  }
+</style>
+{% endblock %}
 
-    header .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: rgba(0, 0, 0, 0.9);
-      min-width: 160px;
-      border-radius: 4px;
-      padding: 6px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-
-    header .dropdown-content a {
-      display: block;
-      padding: 8px 16px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    header .dropdown-content a:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-
-    header .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .otp-container {
-      margin-top: 60px;
-    }
-
-    .otp-card {
-      background-color: white;
-      border-radius: 10px;
-      padding: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-
-    .btn-red {
-      background-color: #d9534f;
-      color: white;
-    }
-
-    .btn-red:hover {
-      background-color: #c9302c;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" height="50" width="50">
-      </a>
-      
-      <nav class="nav ms-auto d-flex gap-2">
-        <!-- ABOUT US Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link " href="#">About Us  </a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="#">Mission</a>
-            <a class="dropdown-item" href="#">Vission</a>
-            <a class="dropdown-item" href="#">Team</a>
-          </div>
+{% block content %}
+<div class="auth-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="otp-card">
+          <h2 class="fw-bold mb-3">Admin OTP Verification</h2>
+          <p class="text-muted mb-4">Enter the OTP sent to your registered email.</p>
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags|default:'info' }} rounded-pill shadow-sm border-0 mb-3" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+              {{ form.otp.label_tag }}
+              {{ form.otp }}
+              {% for error in form.otp.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <div class="mb-4">
+              {{ form.captcha.label_tag }}
+              {{ form.captcha }}
+              {% for error in form.captcha.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-red w-100 py-2">Verify OTP</button>
+          </form>
         </div>
-  
-        <!-- LOOKING FOR BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Service</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="#">Blood Stock</a>
-            <a class="dropdown-item" href="{% url 'otp' %}">Camp Schedule</a>
-            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-            <a class="dropdown-item" href="{% url 'otp' %}">Redcross</a>
-          </div>
-        </div>
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">User</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="{% url 'adminlogin' %}">Admin login</a>
-            <a class="dropdown-item" href="{% url 'donorlogin' %}">Donor Login</a>
-            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-           
-          </div>
-        </div>
-  
-        <!-- WANT TO DONATE BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Gallery</a>
-         
-        </div>
-  
-        <!-- Admin Dropdown -->
-        
-      </nav>
-  
-      
-    </div>
-  </header>
-
-<div class="container otp-container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="otp-card">
-        <h4 class="text-center text-danger mb-4">Enter OTP to Continue</h4>
-        <form method="POST">
-          {% csrf_token %}
-          <div class="mb-3">
-            <label class="form-label fw-bold">OTP:</label>
-            {{ form.otp }}
-            {% if form.otp.errors %}
-              <div class="text-danger">{{ form.otp.errors }}</div>
-            {% endif %}
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label fw-bold">CAPTCHA:</label>
-            {{ form.captcha }}
-            {% if form.captcha.errors %}
-              <div class="text-danger">{{ form.captcha.errors }}</div>
-            {% endif %}
-          </div>
-
-          <div class="d-grid">
-            <button type="submit" class="btn btn-red">Login</button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

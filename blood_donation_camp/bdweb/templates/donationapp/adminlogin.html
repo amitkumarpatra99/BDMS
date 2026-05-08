@@ -1,172 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  {% load static %}
-  <meta charset="UTF-8">
-  <title>Secure Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f5f5f5;
-    }
-    header {
-      background-color: #d9534f;
-      padding: 10px 0;
-    }
-    header .nav-link {
-      color: white !important;
-      font-weight: 500;
-      font-size: 14px;
-      padding: 6px 12px;
-    }
-    header .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: rgba(0, 0, 0, 0.9);
-      min-width: 160px;
-      border-radius: 4px;
-      padding: 6px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-    header .dropdown-content a {
-      display: block;
-      padding: 8px 16px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    header .dropdown-content a:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-    header .dropdown:hover .dropdown-content {
-      display: block;
-    }
+{% extends 'base.html' %}
+{% load static %}
 
-    .login-card {
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      background-color: #fff;
-    }
-    .form-section {
-      background-color: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .btn-red {
-      background-color: #d9534f;
-      color: white;
-    }
-    .btn-red:hover {
-      background-color: #c9302c;
-      color: white;
-    }
-    #captchaText {
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-      
-  </style>
-</head>
-<body>
+{% block title %}Admin Login - Blood Donation Info{% endblock %}
 
-  <header>
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" height="50" width="50">
-      </a>
-      
-      <nav class="nav ms-auto d-flex gap-2">
-        <!-- ABOUT US Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link " href="#">About Us  </a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="{% url 'mission' %}">Mission</a>
-            <a class="dropdown-item" href="{% url 'vission' %}">Vission</a>
-            <a class="dropdown-item" href="{% url 'team' %}">Team</a>
+{% block extra_css %}
+<style>
+  .auth-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: var(--bg-gradient);
+    padding: 60px 0;
+  }
+
+  .auth-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 28px;
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+  }
+
+  .auth-side {
+    background: linear-gradient(135deg, rgba(230,57,70,.12), rgba(230,57,70,.18));
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .auth-side h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .auth-side p {
+    color: #5f6c7b;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8">
+        <div class="auth-card row g-0">
+          <div class="col-md-5 auth-side">
+            <i class="bi bi-shield-lock-fill fs-1 text-danger mb-3"></i>
+            <h3>Admin Portal</h3>
+            <p>Secure access with email authentication and OTP verification.</p>
           </div>
-        </div>
-  
-        <!-- LOOKING FOR BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Service</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="{% url 'blood_stock_page' %}">Blood Stock</a>
-            <a class="dropdown-item" href="{% url 'camp_schedule_page' %}">Camp Schedule</a>
-            
-            <a class="dropdown-item" href="{% url 'otp' %}">Redcross</a>
+          <div class="col-md-7 p-4">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} rounded-pill shadow-sm border-0 mb-4" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+            <h2 class="fs-4 fw-bold mb-3">Admin Login</h2>
+            <form method="POST">
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+              <div class="mb-3">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% for error in form.email.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+              <div class="mb-4">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {% for error in form.password.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+              <button type="submit" class="btn btn-red w-100 py-2">Send OTP</button>
+            </form>
           </div>
-        </div>
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">User</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="{% url 'adminlogin' %}">Admin login</a>
-            <a class="dropdown-item" href="{% url 'donorlogin' %}">Donor Login</a>
-            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-           
-          </div>
-        </div>
-  
-        <!-- WANT TO DONATE BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Gallery</a>
-         
-        </div>
-  
-        <!-- Admin Dropdown -->
-        
-      </nav>
-  
-      
-    </div>
-  </header>
-
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-6 col-md-8 col-sm-12">
-      <div class="card login-card p-4">
-        <h4 class="text-danger mb-4 text-center" style="font-size: 12px;">AdminLogin</h4>
-        <div class="form-section">
-          <form method="POST">
-            {% csrf_token %}
-            
-            <!-- Email Field -->
-            <div class="mb-3">
-              {{ form.email.label_tag }}
-              {{ form.email }}
-            </div>
-          
-            <!-- Password Field -->
-            <div class="mb-3">
-              {{ form.password.label_tag }}
-              {{ form.password }}
-            </div>
-            <div class="d-flex justify-content-between">
-              
-              <button type="submit" class="btn btn-red w-100">Generate OTP</button>
-            </div>
-            <!-- Add these inside the <form> AFTER the Generate OTP button -->
-
-  
-          </form>
-        </div>
-        <div class="mt-3 text-center" id="otpMessage" style="display: none;">
-          <span class="text-success">OTP has been sent to your email.</span>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

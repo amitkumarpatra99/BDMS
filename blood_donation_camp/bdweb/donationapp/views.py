@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate
 from .utils import generate_otp, send_admin_otp ,send_otp_to_hospital_email,send_otp_to_mobile_user
 from django.utils import timezone
@@ -172,15 +172,20 @@ def hospital_login(request):
         password = form.cleaned_data['password']
 
         try:
-            if '@' in login_id:
-                hospital = HospitalClinic.objects.get(login_id =login_id, password=password)
-            else:
-                hospital = HospitalClinic.objects.get(login_id=login_id, password=password)
+            hospital = HospitalClinic.objects.get(login_id=login_id)
+            stored_password = hospital.password or ''
 
-            # Send OTP to email
-            send_otp_to_hospital_email(hospital)
-            request.session['hospital_id'] = hospital.id
-            return redirect('hospital_otp')
+            if check_password(password, stored_password) or stored_password == password:
+                # If the old password was stored in plain text, rehash and save it.
+                if stored_password == password:
+                    hospital.password = make_password(password)
+                    hospital.save(update_fields=['password'])
+
+                send_otp_to_hospital_email(hospital)
+                request.session['hospital_id'] = hospital.id
+                return redirect('hospital_otp')
+
+            form.add_error(None, 'Invalid login credentials.')
 
         except HospitalClinic.DoesNotExist:
             form.add_error(None, 'Invalid login credentials.')
@@ -240,7 +245,6 @@ def hospital_register(request):
     if request.method == 'POST':
         form = HospitalClinicRegistrationForm(request.POST)
         if form.is_valid():
-           
             login_id = form.cleaned_data['login_id']
             password = form.cleaned_data['password']
 
@@ -251,8 +255,10 @@ def hospital_register(request):
 
             hospital = form.save(commit=False)
             hospital.user = user
+            hospital.password = make_password(password)
             hospital.save()
 
+            messages.success(request, 'Hospital/clinic account created successfully. Please log in.')
             return redirect('hospital_login')
     else:
         form = HospitalClinicRegistrationForm()

@@ -5,127 +5,76 @@
 
 {% block extra_css %}
 <style>
-  .reg-container {
-    padding: 60px 0;
+  .auth-container {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
     background: var(--bg-gradient);
-    min-height: 80vh;
-  }
-  
-  .glass-form-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.8);
-    box-shadow: var(--glass-shadow-hover);
-    padding: 40px;
+    padding: 60px 0;
   }
 
-  .form-title {
-    font-family: var(--font-display);
-    font-weight: 800;
-    color: var(--dark-navy);
-    margin-bottom: 30px;
+  .auth-card {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+  }
+
+  .auth-side {
+    background: linear-gradient(135deg, rgba(230,57,70,.12), rgba(230,57,70,.18));
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
   }
-  
-  .form-title span {
-    color: var(--primary-red);
-  }
 
-  .form-control, .form-select {
-    background-color: rgba(248, 250, 252, 0.8);
-  }
-
-  .btn-submit {
-    background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
-    border: none;
+  .auth-side h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.1rem;
-    padding: 12px 30px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
-    transition: all 0.3s ease;
-    color: white;
+    font-size: 2rem;
+    margin-bottom: 12px;
   }
 
-  .btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
-    color: white;
+  .auth-side p {
+    color: #5f6c7b;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="reg-container">
+<div class="auth-container">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="glass-form-card">
-          <h2 class="form-title">Recipient <span>Registration</span></h2>
-          <p class="text-center text-muted mb-4">Register to request life-saving blood from our network.</p>
-          
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row g-4">
-              <div class="col-md-6 col-lg-4">
-                <label class="form-label">Full Name</label>
-                {{ form.name }}
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <label class="form-label">Email Address</label>
-                {{ form.email }}
-              </div>
-              <div class="col-md-6 col-lg-4">
-                <label class="form-label">Contact Number</label>
-                {{ form.contact }}
-              </div>
-              
-              <div class="col-md-6">
-                <label class="form-label">Complete Address</label>
-                {{ form.address }}
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">ID Proof (PDF/Image)</label>
-                {{ form.id_proof }}
-              </div>
-              
-              <div class="col-md-4 col-lg-2">
-                <label class="form-label">Age</label>
-                {{ form.age }}
-              </div>
-              <div class="col-md-4 col-lg-3">
-                <label class="form-label">Gender</label>
-                {{ form.gender }}
-              </div>
-              <div class="col-md-4 col-lg-3">
-                <label class="form-label">State</label>
-                {{ form.state }}
-              </div>
-              <div class="col-md-6 col-lg-2">
-                <label class="form-label">District</label>
-                {{ form.district }}
-              </div>
-              <div class="col-md-6 col-lg-2">
-                <label class="form-label">Pincode</label>
-                {{ form.pin_code }}
-              </div>
-
-              <!-- Hidden Role Field -->
-              <div class="role-container">
-                {{ form.role }}
-              </div>
-            </div>
-          
-            <div class="text-center mt-5">
-              <button type="submit" class="btn btn-submit w-50">Create Recipient Profile</button>
-            </div>
+      <div class="col-xl-10">
+        <div class="auth-card row g-0">
+          <div class="col-lg-5 auth-side">
+            <i class="bi bi-person-hearts fs-1 text-danger mb-3"></i>
+            <h3>Recipient Access</h3>
+            <p>Register to request blood donations quickly and securely.</p>
+          </div>
+          <div class="col-lg-7 p-4">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} rounded-pill shadow-sm border-0 mb-4" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+            <h2 class="fs-4 fw-bold mb-4">Recipient Registration</h2>
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-red w-100 py-2 mt-3">Create Recipient Profile</button>
+            </form>
             <div class="text-center mt-3">
               <a href="{% url 'recipientlogin' %}" class="text-muted small text-decoration-none">Already registered? Log in here.</a>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
