@@ -1,187 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  {% load static %}
-  <meta charset="UTF-8">
-  <title>Donor Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f5f5f5;
-    }
-    header {
-      background-color: #d9534f;
-      padding: 10px 0;
-    }
-    header .nav-link {
-      color: white !important;
-      font-weight: 500;
-      font-size: 14px;
-      padding: 6px 12px;
-    }
-    header .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: rgba(0, 0, 0, 0.9);
-      min-width: 160px;
-      border-radius: 4px;
-      padding: 6px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-    }
-    header .dropdown-content a {
-      display: block;
-      padding: 8px 16px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    header .dropdown-content a:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-    header .dropdown:hover .dropdown-content {
-      display: block;
-    }
+{% extends 'base.html' %}
+{% load static %}
 
-    .login-card {
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      border-radius: 12px;
-      background-color: #fff;
-    }
-    .form-section {
-      background-color: #f8f9fa;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .btn-red {
-      background-color: #d9534f;
-      color: white;
-    }
-    .btn-red:hover {
-      background-color: #c9302c;
-      color: white;
-    }
-    @media (max-width: 767.98px) {
-      .login-card .border-end {
-        border: none !important;
-        border-bottom: 1px solid #dee2e6;
-        margin-bottom: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
+{% block title %}Donor Portal - Blood Donation Info{% endblock %}
 
-  <header>
-    <div class="container d-flex align-items-center justify-content-between">
-      <a href="{% url 'home' %}">
-        <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" height="50" width="50">
-      </a>
-      
-      <nav class="nav ms-auto d-flex gap-2">
-        <!-- ABOUT US Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link " href="#">About Us  </a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="#">Mission</a>
-            <a class="dropdown-item" href="#">Vission</a>
-            <a class="dropdown-item" href="#">Team</a>
-          </div>
-        </div>
+{% block extra_css %}
+<style>
+  .auth-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    background: var(--bg-gradient);
+    padding: 40px 0;
+  }
   
-        <!-- LOOKING FOR BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Service</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="#">Blood Stock</a>
-            <a class="dropdown-item" href="{% url 'otp' %}">Camp Schedule</a>
-            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-            <a class="dropdown-item" href="{% url 'otp' %}">Redcross</a>
-          </div>
-        </div>
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">User</a>
-          <div class="dropdown-content">
-            <a class="dropdown-item" href="{% url 'adminlogin' %}">Admin login</a>
-            <a class="dropdown-item" href="{% url 'donorlogin' %}">Donor Login</a>
-            <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-            <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-           
-          </div>
-        </div>
+  .auth-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+  }
   
-        <!-- WANT TO DONATE BLOOD Dropdown -->
-        <div class="dropdown position-relative">
-          <a class="nav-link" href="#">Gallery</a>
-         
-        </div>
+  .auth-left {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   
-        <!-- Admin Dropdown -->
+  .auth-right {
+    background: linear-gradient(135deg, rgba(230, 57, 70, 0.05), rgba(230, 57, 70, 0.15));
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-left: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .auth-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--dark-navy);
+    margin-bottom: 30px;
+  }
+  
+  .auth-icon {
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 767.98px) {
+    .auth-right {
+      border-left: none;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+  }
+</style>
+<!-- Load Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }} rounded-pill shadow-sm border-0 mb-4" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
         
-      </nav>
-  
-      
-    </div>
-  </header>
-
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 col-sm-12">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags|default:'info' }}" role="alert">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-      <div class="card login-card p-4">
-        <div class="row">
-          <!-- Donor Login -->
-          <div class="col-md-6 border-end">
-            <h4 class="text-danger mb-4">Donor Login</h4>
-            <form method="POST" action="{% url 'donorlogin' %}">
-              {% csrf_token %}
-              <div class="form-section">
-                <div class="mb-3">
-                  {{ form.mobile.label_tag }}
+        <div class="auth-card">
+          <div class="row g-0">
+            <!-- Login Section -->
+            <div class="col-md-7 auth-left">
+              <h2 class="auth-title">Donor <span class="text-primary-red">Login</span></h2>
+              <form method="POST" action="{% url 'donorlogin' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                  <label class="form-label text-muted small fw-bold text-uppercase tracking-wide">Mobile Number</label>
                   {{ form.mobile }}
                   {% if form.mobile.errors %}
-                    <div class="text-danger small mt-1">{{ form.mobile.errors|striptags }}</div>
+                    <div class="text-danger small mt-2 fw-medium"><i class="bi bi-exclamation-circle me-1"></i>{{ form.mobile.errors|striptags }}</div>
                   {% endif %}
                 </div>
-              
-              <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-red me-2 w-30">Generate OTP</button>
-                <a href="{% url 'home' %}" class="btn btn-secondary w-30">Cancel</a>
-              </div>
+                
+                <div class="d-flex align-items-center gap-3 mt-5">
+                  <button type="submit" class="btn btn-red px-4 py-2 flex-grow-1">Generate OTP <i class="bi bi-arrow-right ms-2"></i></button>
+                  <a href="{% url 'home' %}" class="btn btn-light px-4 py-2 text-muted fw-bold border">Cancel</a>
+                </div>
+              </form>
             </div>
-          </form>
-          </div>
 
-          <!-- Register Now -->
-          <div class="col-md-6 text-center d-flex flex-column justify-content-center">
-            
-            <ul class="list-unstyled text-start ps-4">
-              
-                <a href="/manage-account/" class="text-success text-decoration-underline">Manage your Account</a>
-              </li>
-            </ul>
-            <a href="{% url 'donorsignin' %}" class="btn btn-red mt-auto mt-md-3 w-75 mx-auto">Register Now</a>
+            <!-- CTA Section -->
+            <div class="col-md-5 auth-right">
+              <i class="bi bi-heart-pulse-fill auth-icon"></i>
+              <h3 class="fw-bold mb-3" style="font-family: var(--font-display);">New Here?</h3>
+              <p class="text-muted mb-4 small">Join our network of life-savers. Registering takes only a few minutes.</p>
+              <a href="{% url 'donorsignin' %}" class="btn btn-outline-danger w-100 mb-3 rounded-pill">Create Account</a>
+              <a href="/manage-account/" class="text-muted small text-decoration-none border-bottom">Need help managing your account?</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

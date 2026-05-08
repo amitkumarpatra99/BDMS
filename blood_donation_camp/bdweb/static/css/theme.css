@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Core Colors */
+  --primary-red: #E63946;
+  --primary-red-hover: #D90429;
+  --accent-red: #FF4D4D;
+  --dark-navy: #1D3557;
+  --mid-blue: #457B9D;
+  --light-blue: #A8DADC;
+  --off-white: #F1FAEE;
+  --pure-white: #FFFFFF;
+  
+  /* Backgrounds */
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --bg-solid: #F8F9FA;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --glass-shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+
+  /* Typography */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-solid);
+  color: var(--dark-navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   Typography
+========================================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--dark-navy);
+  letter-spacing: -0.02em;
+}
+
+.text-danger, .text-primary-red {
+  color: var(--primary-red) !important;
+}
+
+/* =========================================
+   Header & Navigation (Glassmorphic)
+========================================= */
+header.glass-header {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  padding: 12px 0;
+  transition: all 0.3s ease;
+}
+
+.nav-link {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--dark-navy) !important;
+  font-size: 15px;
+  padding: 8px 16px !important;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: rgba(230, 57, 70, 0.08);
+  color: var(--primary-red) !important;
+}
+
+/* Dropdown Menu - Glassmorphic */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  border-radius: 12px;
+  padding: 8px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255,255,255,0.8);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--dark-navy);
+  padding: 10px 20px;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(230, 57, 70, 0.05);
+  color: var(--primary-red);
+  padding-left: 24px;
+}
+
+/* =========================================
+   Buttons
+========================================= */
+.btn-red {
+  background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-red:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+  color: white;
+}
+
+.btn-outline-danger {
+  font-family: var(--font-display);
+  font-weight: 600;
+  border-width: 2px;
+  border-radius: 8px;
+}
+
+/* =========================================
+   Cards & Containers (Glassmorphic)
+========================================= */
+.glass-card {
+  background: var(--pure-white);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+}
+
+.login-card {
+  background: var(--pure-white);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* =========================================
+   Forms & Inputs
+========================================= */
+.form-section {
+  background: transparent;
+  padding: 0;
+}
+
+.form-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--dark-navy);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.form-control, .form-select {
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background-color: #F8FAFC;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--pure-white);
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
+}
+
+.role-container {
+  display: none !important; /* Hide redundant role globally */
+}
+
+/* =========================================
+   Tables
+========================================= */
+.modern-table {
+  background: var(--pure-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.modern-table thead th {
+  background-color: var(--dark-navy);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 600;
+  padding: 16px;
+  border: none;
+}
+
+.modern-table tbody td {
+  padding: 16px;
+  border-bottom: 1px solid #F1F5F9;
+  vertical-align: middle;
+}
+
+.modern-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+/* =========================================
+   Footer
+========================================= */
+footer.modern-footer {
+  background: var(--dark-navy);
+  color: var(--light-blue);
+  padding: 30px 0;
+  margin-top: auto;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+footer.modern-footer a {
+  color: var(--off-white);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer.modern-footer a:hover {
+  color: var(--primary-red);
+}

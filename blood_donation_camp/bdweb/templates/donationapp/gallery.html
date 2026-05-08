@@ -1,103 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-    {% load static%}
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: red;
-    }
-    
-    h1 {
-        margin: 0;
-        color: white;
-        flex-grow: 1;
-        text-align: center;
-    }
-    
-    .gallery-container {
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-    }
-    
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Blood Donation Info{% endblock %}
+
+{% block extra_css %}
+<style>
+  .gallery-container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 1200px;
+    width: 100%;
+  }
+  
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 16px; /* more rounded */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* deeper shadow */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(0,0,0,0.03);
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(230, 57, 70, 0.15); /* red shadow tint */
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  @media (max-width: 992px) {
     .gallery {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
     }
-    
-    .gallery-item img {
-        width: 100%;
-        height: auto;
-        border-radius: 5px;
+  }
+
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
     }
-    
-    @media (max-width: 768px) {
-        .gallery {
-            grid-template-columns: repeat(2, 1fr);
-        }
+  }
+  
+  @media (max-width: 480px) {
+    .gallery {
+      grid-template-columns: 1fr;
     }
-    
-    @media (max-width: 480px) {
-        .gallery {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>    
-</head>
-<body>
+  }
+</style>
+{% endblock %}
 
-    <!-- Header Section -->
-    <header style="background-color: red; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
-        <!-- Image in the left of the header -->
-        <div class="header-left">
-            <a href="{% url 'home' %}">
-                <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" class="logo" height="50" width="50">
-            </a>
-        </div>
+{% block content %}
+<div class="container my-4 text-center">
+  <h2 class="text-danger">Image Gallery</h2>
+  <p class="text-muted">A glimpse into our blood donation camps and activities.</p>
+</div>
 
-        <!-- Title in the center -->
-        
-        <!-- Back button on the right -->
-        <a href="/" style="color: white; text-decoration: none; font-size: 18px; margin-right: 20px;">Back</a>
-    </header>
-
-    <!-- Gallery Section -->
-    <div class="gallery-container">
-        <div class="gallery">
-            <div class="gallery-item"><img src="{% static 'img/image/b1.jpeg' %}" alt="Image 1"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b2.jpg' %}" alt="Image 2"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b3.jpg' %}" alt="Image 3"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b4.jpeg' %}" alt="Image 4"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b5.jpeg' %}" alt="Image 5"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b6.jpeg' %}" alt="Image 6"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b7.jpeg' %}" alt="Image 7"></div>
-            <div class="gallery-item"><img src="{% static 'img/image/b8.jpeg' %}" alt="Image 8"></div>
-        </div>
-    </div>
-
- 
-
-</body>
-</html>
+<!-- Gallery Section -->
+<div class="gallery-container">
+  <div class="gallery">
+    <div class="gallery-item"><img src="{% static 'img/image/b1.jpeg' %}" alt="Gallery Image 1"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b2.jpg' %}" alt="Gallery Image 2"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b3.jpg' %}" alt="Gallery Image 3"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b4.jpeg' %}" alt="Gallery Image 4"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b5.jpeg' %}" alt="Gallery Image 5"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b6.jpeg' %}" alt="Gallery Image 6"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b7.jpeg' %}" alt="Gallery Image 7"></div>
+    <div class="gallery-item"><img src="{% static 'img/image/b8.jpeg' %}" alt="Gallery Image 8"></div>
+  </div>
+</div>
+{% endblock %}

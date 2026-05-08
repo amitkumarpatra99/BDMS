@@ -1,232 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  {% load static %}
-  {% load widget_tweaks %}
+{% extends 'base.html' %}
+{% load static %}
 
-  <meta charset="UTF-8">
-  <title>Recipient Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}Recipient Registration - Blood Donation Info{% endblock %}
 
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <style>
-    body {
-      background-color: #f9f9f9;
-      font-size: 14px;
-    }
-    header {
-        background-color: #d9534f;
-        padding: 10px 0;
-    }
-    .navbar {
-      background-color: #d9534f;
-    }
-
-    .navbar-nav .nav-link {
-      color: #fff !important;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .dropdown-menu {
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .dropdown-menu a {
-      color: white;
-      font-size: 13px;
-    }
-
-    .dropdown-menu a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .form-label {
-      margin-bottom: 5px;
-      font-weight: 500;
-    }
-
-    .form-control {
-      font-size: 14px;
-      padding: 6px 10px;
-    }
-
-    .btn-red {
-      background-color: #d9534f;
-      color: white;
-      padding: 8px 18px;
-      font-size: 14px;
-      border-radius: 5px;
-    }
-
-    .btn-red:hover {
-      background-color: #c9302c;
-    }
-
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 12px;
-      color: #999;
-    }
-    header .nav-link {
-        color: white !important;
-        font-weight: 500;
-        font-size: 14px;
-        padding: 6px 12px;
-      }
-      header .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        background: rgba(0, 0, 0, 0.9);
-        min-width: 160px;
-        border-radius: 4px;
-        padding: 6px 0;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        z-index: 1000;
-      }
-      header .dropdown-content a {
-        display: block;
-        padding: 8px 16px;
-        color: white;
-        text-decoration: none;
-        font-size: 13px;
-      }
-      header .dropdown-content a:hover {
-        background-color: rgba(255, 255, 255, 0.15);
-      }
-      header .dropdown:hover .dropdown-content {
-        display: block;
-      }
+{% block extra_css %}
+<style>
+  .reg-container {
+    padding: 60px 0;
+    background: var(--bg-gradient);
+    min-height: 80vh;
+  }
   
-  </style>
-</head>
-<body>
+  .glass-form-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: var(--glass-shadow-hover);
+    padding: 40px;
+  }
 
-<!-- Responsive Navbar -->
-<header>
-  <div class="container d-flex align-items-center justify-content-between">
-    <a href="{% url 'home' %}">
-      <img src="{% static 'img/image/b12.jpg' %}" alt="Logo" height="50" width="50">
-    </a>
-    
-    <nav class="nav ms-auto d-flex gap-2">
-      <!-- ABOUT US Dropdown -->
-      <div class="dropdown position-relative">
-        <a class="nav-link " href="#">About Us  </a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" href="#">Mission</a>
-          <a class="dropdown-item" href="#">Vission</a>
-          <a class="dropdown-item" href="#">Team</a>
-        </div>
-      </div>
+  .form-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--dark-navy);
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .form-title span {
+    color: var(--primary-red);
+  }
 
-      <!-- LOOKING FOR BLOOD Dropdown -->
-      <div class="dropdown position-relative">
-        <a class="nav-link" href="#">Service</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" href="#">Blood Stock</a>
-          <a class="dropdown-item" href="{% url 'otp' %}">Camp Schedule</a>
-          <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-          <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-          <a class="dropdown-item" href="{% url 'otp' %}">Redcross</a>
-        </div>
-      </div>
-      <div class="dropdown position-relative">
-        <a class="nav-link" href="#">User</a>
-        <div class="dropdown-content">
-          <a class="dropdown-item" href="{% url 'adminlogin' %}">Admin login</a>
-          <a class="dropdown-item" href="{% url 'donorlogin' %}">Donor Login</a>
-          <a class="dropdown-item" href="{% url 'recipientlogin' %}">Recipient Login</a>
-          <a class="dropdown-item" href="#">Hospital/Clinic Login</a>
-         
-        </div>
-      </div>
+  .form-control, .form-select {
+    background-color: rgba(248, 250, 252, 0.8);
+  }
 
-      <!-- WANT TO DONATE BLOOD Dropdown -->
-      <div class="dropdown position-relative">
-        <a class="nav-link" href="#">Gallery</a>
-       
-      </div>
+  .btn-submit {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
+    border: none;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+    transition: all 0.3s ease;
+    color: white;
+  }
 
-      <!-- Admin Dropdown -->
-      
-    </nav>
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(230, 57, 70, 0.4);
+    color: white;
+  }
+</style>
+{% endblock %}
 
-    
-  </div>
-</header>
-<!-- Registration Form -->
-<div class="container mt-4">
-  <div class="card mx-auto p-4 shadow-sm" style="max-width: 900px;">
-    <h5 class="text-center text-danger mb-3">Recipient Registration</h5>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="row g-3">
-        <div class="col-md-6 col-lg-4">
-          <label class="form-label">Full Name</label>
-          {{ form.name }}
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <label class="form-label">Email</label>
-          {{ form.email }}
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <label class="form-label">Contact</label>
-          {{ form.contact }}
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Address</label>
-          {{ form.address }}
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">ID Proof (PDF/Image)</label>
-          {{ form.id_proof }}
-        </div>
-        <div class="col-md-4 col-lg-2">
-          <label class="form-label">Age</label>
-          {{ form.age }}
-        </div>
-        <div class="col-md-4 col-lg-3">
-          <label class="form-label">Gender</label>
-          {{ form.gender }}
-        </div>
-        <div class="col-md-4 col-lg-3">
-          <label class="form-label">State</label>
-          {{ form.state }}
-        </div>
-        <div class="col-md-6 col-lg-2">
-          <label class="form-label">District</label>
-          {{ form.district }}
-        </div>
-        <div class="col-md-6 col-lg-2">
-          <label class="form-label">Pincode</label>
-          {{ form.pin_code }}
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Role</label>
-          {{ form.role }}
+{% block content %}
+<div class="reg-container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="glass-form-card">
+          <h2 class="form-title">Recipient <span>Registration</span></h2>
+          <p class="text-center text-muted mb-4">Register to request life-saving blood from our network.</p>
+          
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row g-4">
+              <div class="col-md-6 col-lg-4">
+                <label class="form-label">Full Name</label>
+                {{ form.name }}
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <label class="form-label">Email Address</label>
+                {{ form.email }}
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <label class="form-label">Contact Number</label>
+                {{ form.contact }}
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label">Complete Address</label>
+                {{ form.address }}
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">ID Proof (PDF/Image)</label>
+                {{ form.id_proof }}
+              </div>
+              
+              <div class="col-md-4 col-lg-2">
+                <label class="form-label">Age</label>
+                {{ form.age }}
+              </div>
+              <div class="col-md-4 col-lg-3">
+                <label class="form-label">Gender</label>
+                {{ form.gender }}
+              </div>
+              <div class="col-md-4 col-lg-3">
+                <label class="form-label">State</label>
+                {{ form.state }}
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <label class="form-label">District</label>
+                {{ form.district }}
+              </div>
+              <div class="col-md-6 col-lg-2">
+                <label class="form-label">Pincode</label>
+                {{ form.pin_code }}
+              </div>
+
+              <!-- Hidden Role Field -->
+              <div class="role-container">
+                {{ form.role }}
+              </div>
+            </div>
+          
+            <div class="text-center mt-5">
+              <button type="submit" class="btn btn-submit w-50">Create Recipient Profile</button>
+            </div>
+            <div class="text-center mt-3">
+              <a href="{% url 'recipientlogin' %}" class="text-muted small text-decoration-none">Already registered? Log in here.</a>
+            </div>
+          </form>
         </div>
       </div>
-    
-      <div class="text-center mt-4">
-        <button type="submit" class="btn btn-red">Register</button>
-      </div>
-    </form>
-    
-    
+    </div>
   </div>
 </div>
-
-<footer class="mt-4">
-  &copy; 2025 Blood Donation Management System
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
