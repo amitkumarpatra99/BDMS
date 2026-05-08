@@ -17,7 +17,7 @@ Screenshots from the Blood Donation Camp application.
 
 ### Installation
 
-1. Navigate to the project directory:
+1. Navigate to the project directory: 
    ```bash
    cd blood_donation_camp/bdweb
    ```
