@@ -2,6 +2,13 @@
 
 A Django web application for managing blood donation camps.
 
+## Photos
+
+Screenshots from the Blood Donation Camp application.
+
+![Project Overview](project.png)
+
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -50,6 +57,4 @@ A Django web application for managing blood donation camps.
 ## Technologies Used
 - Django 5.2
 - SQLite (default)
-=======
-new
->>>>>>> b778e19e202f8fd9c0c23962563089b2b4b99d48
+
