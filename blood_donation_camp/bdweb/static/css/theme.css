@@ -6,6 +6,7 @@
   --primary-red-hover: #D90429;
   --accent-red: #FF4D4D;
   --dark-navy: #1D3557;
+  --text-dark: #212529;
   --mid-blue: #457B9D;
   --light-blue: #A8DADC;
   --off-white: #F1FAEE;
@@ -29,7 +30,7 @@
 body {
   font-family: var(--font-body);
   background: var(--bg-solid);
-  color: var(--dark-navy);
+  color: var(--text-dark);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,7 +43,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--dark-navy);
+  color: var(--text-dark);
   letter-spacing: -0.02em;
 }
 
@@ -69,7 +70,7 @@ header.glass-header {
 .nav-link {
   font-family: var(--font-display);
   font-weight: 600;
-  color: var(--dark-navy) !important;
+  color: var(--text-dark) !important;
   font-size: 15px;
   padding: 8px 16px !important;
   border-radius: 8px;
@@ -111,7 +112,7 @@ header.glass-header {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 14px;
-  color: var(--dark-navy);
+  color: var(--text-dark);
   padding: 10px 20px;
   transition: all 0.2s;
 }
@@ -185,7 +186,7 @@ header.glass-header {
 .form-label {
   font-family: var(--font-display);
   font-weight: 600;
-  color: var(--dark-navy);
+  color: var(--text-dark);
   font-size: 14px;
   margin-bottom: 6px;
 }
