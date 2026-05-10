@@ -69,45 +69,70 @@
           
           <form method="post">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+              </div>
+            {% endif %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
             <div class="row g-4">
               <div class="col-md-6">
                 <label class="form-label">Organization Name</label>
                 {{ form.organization_name }}
+                {% if form.organization_name.errors %}<div class="text-danger small mt-1">{{ form.organization_name.errors|striptags }}</div>{% endif %}
               </div>
               <div class="col-md-6">
                 <label class="form-label">Related Blood Bank</label>
                 {{ form.related_blood_bank }}
+                {% if form.related_blood_bank.errors %}<div class="text-danger small mt-1">{{ form.related_blood_bank.errors|striptags }}</div>{% endif %}
               </div>
               
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">Login ID</label>
                 {{ form.login_id }}
+                {% if form.login_id.errors %}<div class="text-danger small mt-1">{{ form.login_id.errors|striptags }}</div>{% endif %}
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">Password</label>
                 {{ form.password }}
+                {% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors|striptags }}</div>{% endif %}
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
+                <label class="form-label">Confirm Password</label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}<div class="text-danger small mt-1">{{ form.confirm_password.errors|striptags }}</div>{% endif %}
+              </div>
+              <div class="col-md-3">
                 <label class="form-label">Contact Number</label>
                 {{ form.contact }}
+                {% if form.contact.errors %}<div class="text-danger small mt-1">{{ form.contact.errors|striptags }}</div>{% endif %}
               </div>
+
               
               <div class="col-md-4">
                 <label class="form-label">State</label>
                 {{ form.state }}
+                {% if form.state.errors %}<div class="text-danger small mt-1">{{ form.state.errors|striptags }}</div>{% endif %}
               </div>
               <div class="col-md-4">
                 <label class="form-label">District</label>
                 {{ form.district }}
+                {% if form.district.errors %}<div class="text-danger small mt-1">{{ form.district.errors|striptags }}</div>{% endif %}
               </div>
               <div class="col-md-4">
                 <label class="form-label">Pin Code</label>
                 {{ form.pin_code }}
+                {% if form.pin_code.errors %}<div class="text-danger small mt-1">{{ form.pin_code.errors|striptags }}</div>{% endif %}
               </div>
               
               <div class="col-md-12">
                 <label class="form-label">Complete Location</label>
                 {{ form.location }}
+                {% if form.location.errors %}<div class="text-danger small mt-1">{{ form.location.errors|striptags }}</div>{% endif %}
               </div>
 
               <!-- Hidden Role Field -->

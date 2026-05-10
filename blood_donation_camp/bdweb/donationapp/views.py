@@ -58,7 +58,7 @@ def _get_donor_by_mobile(mobile):
 
 def donorlogin(request):
     if request.method == 'POST':
-        form = donorLoginForm(request.POST)
+        form = DonorLoginForm(request.POST)
         if form.is_valid():
             mobile = form.cleaned_data['mobile']
             donor = _get_donor_by_mobile(mobile)
@@ -75,20 +75,20 @@ def donorlogin(request):
                 return render(request, 'donationapp/donorlogin.html', {'form': form})
             return redirect('otp')
     else:
-        form = donorLoginForm()
+        form = DonorLoginForm()
     return render(request, 'donationapp/donorlogin.html', {'form': form})
 
 
 def donorsignin(request):
     if request.method == 'POST':
-        form = donorregistrationForm(request.POST, request.FILES)
+        form = DonorRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('donorlogin')
         else:
             print("Form errors:", form.errors) 
     else:
-        form = donorregistrationForm()
+        form = DonorRegistrationForm()
     return render(request, 'donationapp/donorsignin.html', {'form': form})
 
 def donationrequest(request):
@@ -113,7 +113,7 @@ def donationrequest(request):
 
 def recipientlogin(request):
     if request.method == 'POST':
-        form = recipientLoginForm(request.POST)
+        form = RecipientLoginForm(request.POST)
         if form.is_valid():
             mobile = form.cleaned_data['mobile']
             recipient = _get_recipient_by_mobile(mobile)
@@ -131,7 +131,7 @@ def recipientlogin(request):
                 return render(request, 'donationapp/recipientlogin.html', {'form': form})
             return redirect('otp')
     else:
-        form = recipientLoginForm()
+        form = RecipientLoginForm()
     return render(request, 'donationapp/recipientlogin.html', {'form': form})
 def recipientsignin(request):
     if request.method == 'POST':
@@ -260,6 +260,8 @@ def hospital_register(request):
 
             messages.success(request, 'Hospital/clinic account created successfully. Please log in.')
             return redirect('hospital_login')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = HospitalClinicRegistrationForm()
     return render(request, 'donationapp/hospitalsignin.html', {'form': form})
