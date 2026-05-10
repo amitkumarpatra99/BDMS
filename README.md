@@ -1,4 +1,4 @@
-# Blood Donation Camp
+# Blood Donation Camp 🚨
 
 A Django web application for managing blood donation camps.
 
