@@ -1,7 +1,12 @@
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 import pymysql
+
+# Load environment variables from .env file
+load_dotenv()
+
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -16,13 +21,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ak57fr+c1(7xnrx+3h*wba_mrsy8@pbc72_wj8!5!tl)pcqry3'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-me-in-production')
 ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY', 'dev-only-encryption-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 
 # Application definition
@@ -75,10 +80,22 @@ WSGI_APPLICATION = 'bdweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_NAME', BASE_DIR / 'db.sqlite3'),
     }
 }
+
+# If using MySQL, uncomment and configure:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.environ.get('DB_NAME', 'blood_donation_db'),
+#         'USER': os.environ.get('DB_USER', 'root'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+#         'HOST': os.environ.get('DB_HOST', 'localhost'),
+#         'PORT': os.environ.get('DB_PORT', '3306'),
+#     }
+# }
 
 
 
@@ -105,7 +122,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -123,20 +140,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 
- 
+FAST2SMS_API_KEY = os.environ.get('FAST2SMS_API_KEY', '')
 
-
-
-
-FAST2SMS_API_KEY = 'g90H4NCnkcyxLsFYvz1Zu67GdJhQESo8PXfDpmlIbUATtKBRrO7tjWFleJHfwkbDAvBE8LdzsKGm41o9'
-
-
-DEFAULT_FROM_EMAIL = 'no-reply@yourdomain.com'
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@yourdomain.com')
 
 STATIC_URL = 'static/'
 
 LOGIN_URL = '/donationapp/donorlogin'
- # Change this to your actual login page URL
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
