@@ -1,0 +1,81 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+*.pot
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Pyre
+.pyre/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Node (if using npm)
+node_modules/
+npm-debug.log
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Backup files
+*.backup
+*.bak
+migrations_backup/
+
+# Logs
+logs/
+*.log
+
+# Database backups
+*.sql
+*.dump
+
+# Temporary files
+temp/
+tmp/
+*.tmp

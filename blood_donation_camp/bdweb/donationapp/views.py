@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from .utils import generate_otp, send_admin_otp ,send_otp_to_hospital_email,send_otp_to_mobile_user
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .forms import donorLoginForm,recipientLoginForm,BloodStockForm,HospitalOTPForm,HospitalLoginForm,HospitalClinicRegistrationForm,AdminRegistrationForm,OTPForm,RecipientRequestForm,DonationRequestForm,AdminOTPVerificationForm,AdminLoginForm,donorregistrationForm,RecipientRegistrationForm
+from .forms import DonorLoginForm, RecipientLoginForm, BloodStockForm, HospitalOTPForm, HospitalLoginForm, HospitalClinicRegistrationForm, AdminRegistrationForm, OTPForm, RecipientRequestForm, DonationRequestForm, AdminOTPVerificationForm, AdminLoginForm, DonorRegistrationForm, RecipientRegistrationForm
 from .models import OTP,AdminOTP,DonationRequest,BloodStock,HospitalClinic,HospitalBloodRequest,RecipientRequest,AdminProfile,Recipient, UserRole,Donor,CampSchedule
 import random
 import re
