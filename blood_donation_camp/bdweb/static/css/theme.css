@@ -262,3 +262,38 @@ footer.modern-footer a {
 footer.modern-footer a:hover {
   color: var(--primary-red);
 }
+
+/* =========================================
+   Animations & Utilities
+========================================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* Subtle Background Pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: radial-gradient(var(--mid-blue) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+}

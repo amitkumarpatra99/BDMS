@@ -1,245 +1,108 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Vision</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: white;
-    }
 
-    .header {
-      background-color: #cc0000;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+{% block title %}Our Vision - Blood Donation Info{% endblock %}
 
-    .header img {
-      height: 50px;
-      width: 50px;
-    }
+{% block extra_css %}
+<style>
+  .vision-container {
+    padding: 60px 0;
+    background: var(--bg-gradient);
+    min-height: 80vh;
+  }
+  
+  .content-card {
+    background: var(--pure-white);
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.02);
+  }
 
-    .back-button {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-    }
+  .content-card img {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  
+  .vision-text p {
+    font-size: 1.1rem;
+    color: #4B5563;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+  
+  .feature-box {
+    background: var(--pure-white);
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+  }
+  
+  .feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(230,57,70,0.08);
+  }
+</style>
+{% endblock %}
 
-    .main {
-      padding: 30px;
-      color: #333;
-      font-size: 12px;
-      line-height: 1.6;
-      text-align: justify;
-    }
+{% block content %}
+<div class="vision-container">
+  <div class="container animate-fade-up">
+    <!-- Header -->
+    <div class="text-center mb-5">
+      <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 mb-3 fw-bold tracking-wide">OUR FUTURE</span>
+      <h1 class="fw-bold" style="font-family: var(--font-display); color: var(--dark-navy);">The Vision We See</h1>
+      <p class="text-muted lead mx-auto" style="max-width: 700px;">A nation where safe and adequate blood is available to every individual in need, without any discrimination or delay.</p>
+    </div>
 
-    .main h2 {
-      margin-top: 0;
-    }
+    <!-- Main Content -->
+    <div class="content-card mb-5">
+      <div class="row align-items-center flex-row-reverse">
+        <!-- Text -->
+        <div class="col-lg-7 vision-text ps-lg-5 mb-4 mb-lg-0">
+          <h3 class="mb-4 text-dark fw-bold">Eliminating Scarcity Through Innovation</h3>
+          <p>
+            We aim to eliminate the scarcity of blood by encouraging continuous voluntary donations, integrating advanced technology, and creating a sustainable blood ecosystem that empowers both donors and recipients.
+          </p>
+          <p>
+            Through strategic partnerships, community engagement, and awareness programs, we envision a future where no life is lost due to the unavailability of blood. By leveraging mobile technology and data-driven platforms, we streamline blood donation and distribution to remote and underserved areas.
+          </p>
+        </div>
+        
+        <!-- Image -->
+        <div class="col-lg-5">
+          <img src="{% static 'img/image/p4.png' %}" class="img-fluid" alt="Our Vision">
+        </div>
+      </div>
+    </div>
 
-    .image-center {
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .image-center img {
-      width: 90%;
-      max-width: 500px;
-      height: auto;
-      border-radius: 10px;
-    }
-
-    .slider {
-      position: relative;
-      max-width: 90%;
-      margin: 20px auto;
-    }
-
-    .slides {
-      display: none;
-    }
-
-    .slider img {
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    .dot-container {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .dot {
-      height: 15px;
-      width: 15px;
-      margin: 0 5px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.3s;
-    }
-
-    .active {
-      background-color: #333;
-    }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 24px;
-      color: black;
-      cursor: pointer;
-      background-color: rgba(255,255,255,0.7);
-      padding: 10px;
-      border-radius: 50%;
-    }
-
-    .left-arrow {
-      left: 10px;
-    }
-
-    .right-arrow {
-      right: 10px;
-    }
-
-    @media (max-width: 768px) {
-      .main {
-        font-size: 16px;
-        padding: 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-<div class="header">
-  <img src="{% static 'img/image/b12.jpg' %}" alt="Logo">
-  <a href="{% url 'home' %}" class="back-button">Back</a>
-</div>
-
-<div class="main">
-  <h2>Our Vision</h2>
-  <p>
-    Our vision is to build a nation where safe and adequate blood is available to every individual in need,
-    without any discrimination. We aim to eliminate the scarcity of blood by encouraging voluntary donations,
-    integrating technology, and creating a sustainable blood ecosystem that empowers both donors and recipients.
-  </p>
-
-  <div class="image-center">
-    <img id="visionSlide" src="{% static 'img/image/b8.jpeg' %}" alt="Vision Main Image">
-    
-  </div>
-
-  <p>
-    Through strategic partnerships, community engagement, and awareness programs, we envision a future where
-    no life is lost due to the unavailability of blood. By leveraging mobile technology and data-driven platforms,
-    we can streamline blood donation and distribution to remote and underserved areas.
-  </p>
-
-  <div class="slider" style="width:400px; height:300px ;">
-    <img class="slides" src="{% static 'img/image/b13.jpg' %}" alt="Slide 1">
-    <img class="slides" src="{% static 'img/image/b14.jpg' %}" alt="Slide 2">
-    <img class="slides" src="{% static 'img/image/b15.jpg' %}" alt="Slide 3">
-
-    <span class="arrow left-arrow" onclick="plusSlides(-1)">&#10094;</span>
-    <span class="arrow right-arrow" onclick="plusSlides(1)">&#10095;</span>
-
-    <div class="dot-container">
-      <span class="dot" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
+    <!-- Vision Pillars -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4 animate-fade-up delay-100">
+        <div class="feature-box text-center">
+          <i class="bi bi-globe-central-south-asia fs-1 text-danger mb-3"></i>
+          <h4 class="fw-bold mb-3" style="font-family: var(--font-display);">Nationwide Network</h4>
+          <p class="text-muted small mb-0">Building a nationwide database of blood donors and real-time monitoring systems to meet emergency requirements instantly.</p>
+        </div>
+      </div>
+      <div class="col-md-4 animate-fade-up delay-200">
+        <div class="feature-box text-center">
+          <i class="bi bi-cpu fs-1 text-danger mb-3"></i>
+          <h4 class="fw-bold mb-3" style="font-family: var(--font-display);">Smart Technology</h4>
+          <p class="text-muted small mb-0">Leveraging AI-driven forecasting and modern platforms to predict shortages and dispatch life-saving supplies accurately.</p>
+        </div>
+      </div>
+      <div class="col-md-4 animate-fade-up delay-300">
+        <div class="feature-box text-center">
+          <i class="bi bi-people-fill fs-1 text-danger mb-3"></i>
+          <h4 class="fw-bold mb-3" style="font-family: var(--font-display);">Civic Responsibility</h4>
+          <p class="text-muted small mb-0">Instilling a deep sense of social empathy by educating the public about the critical importance of regular blood donation.</p>
+        </div>
+      </div>
     </div>
   </div>
-
-  <p>
-    We also strive to instill a sense of civic responsibility and social empathy by educating the public
-    about the importance of regular blood donation. Our long-term vision includes a nationwide database of blood donors
-    and real-time monitoring systems to meet emergency requirements efficiently.
-  </p>
 </div>
-<footer style="background-color: #f2f2f2; padding: 30px 20px; margin-top: 40px;">
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
-      
-      <div style="background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 10px; padding: 20px; flex: 1; min-width: 250px; max-width: 400px;">
-        <h3 style="color: #cc0000; margin-top: 0;"> Our Blood Banks</h3>
-        <p style="color: #555; font-size: 14px; text-align: justify;">
-          190203
-        </p>
-      </div>
-
-      <div style="background-color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 10px; padding: 20px; flex: 1; min-width: 250px; max-width: 400px;">
-        <h3 style="color: #cc0000; margin-top: 0;"> Our Donations</h3>
-        <p style="color: #555; font-size: 14px; text-align: justify;">
-          202345
-        </p>
-      </div>
-
-    </div>
-  </footer>
-
-<script>
-  let slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    let i;
-    const slides = document.getElementsByClassName("slides");
-    const dots = document.getElementsByClassName("dot");
-
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-
-    for (i = 0; i < dots.length; i++) {
-      dots[i].classList.remove("active");
-    }
-
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].classList.add("active");
-  }
-
-  setInterval(function () {
-    plusSlides(1);
-  }, 3000);
-</script>
-<script>
-    const visionImages = [
-      "{% static 'img/image/b8.jpeg' %}",
-      "{% static 'img/image/b5.jpeg' %}",
-      "{% static 'img/image/b1.jpeg' %}"
-    ];
-  
-    let currentVisionIndex = 0;
-    const visionImgElement = document.getElementById("visionSlide");
-  
-    function rotateVisionImage() {
-      currentVisionIndex = (currentVisionIndex + 1) % visionImages.length;
-      visionImgElement.src = visionImages[currentVisionIndex];
-    }
-  
-    setInterval(rotateVisionImage, 3000);
-  </script>
-  
-
-</body>
-</html>
+{% endblock %}

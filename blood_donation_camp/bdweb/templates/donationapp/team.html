@@ -1,157 +1,115 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Our Team</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
-    }
 
-    .header {
-      background-color: #cc0000;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+{% block title %}Our Team - Blood Donation Info{% endblock %}
 
-    .header img {
-      height: 50px;
-      width: 50px;
-    }
+{% block extra_css %}
+<style>
+  .team-container {
+    padding: 60px 0;
+    background: var(--bg-gradient);
+    min-height: 80vh;
+  }
+  
+  .team-card {
+    background: var(--pure-white);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(230,57,70,0.08);
+  }
+  
+  .team-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid rgba(230,57,70,0.1);
+    transition: border-color 0.3s ease;
+  }
 
-    .back-button {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-    }
+  .team-card:hover img {
+    border-color: var(--primary-red);
+  }
+  
+  .team-role {
+    font-size: 0.9rem;
+    color: var(--primary-red);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+</style>
+{% endblock %}
 
-    .team-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
-      text-align: center;
-    }
+{% block content %}
+<div class="team-container">
+  <div class="container animate-fade-up">
+    <!-- Header -->
+    <div class="text-center mb-5">
+      <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 mb-3 fw-bold tracking-wide">OUR PEOPLE</span>
+      <h1 class="fw-bold" style="font-family: var(--font-display); color: var(--dark-navy);">Meet the Team</h1>
+      <p class="text-muted lead mx-auto mt-3" style="max-width: 800px;">
+        We are a passionate group of developers, healthcare professionals, and volunteers dedicated to improving public health through technology. Our team is committed to ensuring every blood request is fulfilled quickly and efficiently.
+      </p>
+    </div>
 
-    .team-title {
-      color: #cc0000;
-      font-size: 36px;
-      margin-bottom: 40px;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-
-    .team-card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    .team-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .team-card img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-
-    .team-card h3 {
-      margin: 10px 0 5px;
-      color: #333;
-    }
-
-    .team-card p {
-      margin: 0;
-      color: #777;
-      font-size: 14px;
-    }
-
-    .footer {
-      background-color: #cc0000;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 600px) {
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .back-button {
-        align-self: flex-end;
-        margin-top: 10px;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Header -->
-  <div class="header">
-    <img src="{% static 'img/image/b12.jpg' %}" alt="Logo">
-    <a href="{% url 'home' %}" class="back-button"> Back</a>
-  </div>
-
-  <!-- Team Section -->
-  <div style="max-width: 900px; margin: 0 auto 30px; text-align: center;">
-    <p style="font-size: 16px; color: #555; line-height: 1.6;">
-      We are a passionate group of developers, healthcare professionals, and volunteers dedicated to improving public health through technology. Our team is committed to ensuring that every blood request is fulfilled quickly and efficiently, while also spreading awareness about the importance of regular blood donation.
-    </p>
-    <h6 class="team-title" style=" font-size: 14px;">Meet Our Team</h6>
-    <div class="team-grid">
-      <!-- Team Member 1 -->
-      <div class="team-card">
-        <img src="{% static 'img/image/b1.jpeg' %}" alt="Team Member 1">
-        <h3>John Doe</h3>
-        <p>Founder & Director</p>
+    <!-- Team Grid -->
+    <div class="row g-4 mb-5">
+      <!-- Member 1 -->
+      <div class="col-md-6 col-lg-3 animate-fade-up delay-100">
+        <div class="team-card">
+          <img src="{% static 'img/image/b1.jpeg' %}" alt="Amit Patra">
+          <h4 class="fw-bold mb-1" style="font-family: var(--font-display);">AMIT KUMAR PATRA</h4>
+          <span class="team-role">Founder & Director</span>
+        </div>
+      </div>
+      
+      <!-- Member 2 -->
+      <div class="col-md-6 col-lg-3 animate-fade-up delay-200">
+        <div class="team-card">
+          <img src="{% static 'img/image/b2.jpg' %}" alt="Amar Ku khatua">
+          <h4 class="fw-bold mb-1" style="font-family: var(--font-display);">Amar Ku khatua</h4>
+          <span class="team-role">Operations Head</span>
+        </div>
+      </div>
+      
+      <!-- Member 3 -->
+      <div class="col-md-6 col-lg-3 animate-fade-up delay-300">
+        <div class="team-card">
+          <img src="{% static 'img/image/b3.jpg' %}" alt="Amresh Maharana">
+          <h4 class="fw-bold mb-1" style="font-family: var(--font-display);">Amresh Maharana</h4>
+          <span class="team-role">Logistics Coordinator</span>
+        </div>
+      </div>
+      
+      <!-- Member 4 -->
+      <div class="col-md-6 col-lg-3 animate-fade-up delay-400">
+        <div class="team-card">
+          <img src="{% static 'img/image/b4.jpeg' %}" alt="Amisha Das">
+          <h4 class="fw-bold mb-1" style="font-family: var(--font-display);">Amisha Das</h4>
+          <span class="team-role">Receiver Support</span>
+        </div>
       </div>
 
-      <!-- Team Member 2 -->
-      <div class="team-card">
-        <img src="{% static 'img/image/b2.jpg' %}" alt="Team Member 2">
-        <h3>Jane Smith</h3>
-        <p>Operations Head</p>
-      </div>
-
-      <!-- Team Member 3 -->
-      <div class="team-card">
-        <img src="{% static 'img/image/b3.jpg' %}" alt="Team Member 3">
-        <h3>Michael Lee</h3>
-        <p>Logistics Coordinator</p>
-      </div>
-
-      <!-- Team Member 4 -->
-      <div class="team-card">
-        <img src="{% static 'img/image/b4.jpeg' %}" alt="Team Member 4">
-        <h3>Priya Sharma</h3>
-        <p>Receiver Support Manager</p>
+      <div class="col-md-6 col-lg-3 animate-fade-up delay-400">
+        <div class="team-card">
+          <img src="{% static 'img/image/b4.jpeg' %}" alt="Debasis Biswal">
+          <h4 class="fw-bold mb-1" style="font-family: var(--font-display);">Debasis Biswal</h4>
+          <span class="team-role">IT Support</span>
+        </div>
       </div>
     </div>
+    
   </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <p>&copy; 2026 BDMS — Empowering Through Giving</p>
-  </div>
-
-</body>
-</html>
+</div>
+{% endblock %}

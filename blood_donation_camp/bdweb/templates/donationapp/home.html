@@ -111,20 +111,22 @@
     <div class="carousel-item active">
       <img src="{% static 'img/image/b4.jpeg' %}" alt="Blood Donation Campaign">
       <div class="carousel-overlay">
-        <div class="hero-text">
-          <h1>Give Blood.<br>Save Life.</h1>
-          <p>Your single donation can save up to three lives. Join our community of everyday heroes making a profound difference.</p>
-          <a href="{% url 'donorlogin' %}" class="btn btn-red btn-lg px-5 py-3 rounded-pill">Donate Now <i class="bi bi-arrow-right ms-2"></i></a>
+        <div class="hero-text animate-fade-up">
+          <span class="badge bg-danger rounded-pill mb-3 px-3 py-2 fw-bold" style="font-family: var(--font-body); letter-spacing: 1px;">BE THE LIFELINE</span>
+          <h1>Empower Life.<br>Donate Blood.</h1>
+          <p>Your single donation can make a lifetime of difference for up to three people. Join our premium network of everyday heroes saving lives.</p>
+          <a href="{% url 'donorlogin' %}" class="btn btn-red btn-lg px-5 py-3 rounded-pill shadow-lg mt-2">Start Donating <i class="bi bi-arrow-right ms-2"></i></a>
         </div>
       </div>
     </div>
     <div class="carousel-item">
       <img src="{% static 'img/image/b6.jpeg' %}" alt="Community Support">
       <div class="carousel-overlay">
-        <div class="hero-text">
-          <h1>Be the Lifeline.</h1>
-          <p>Hospitals are constantly in need of fresh blood. Register today and respond to emergency requests in your area.</p>
-          <a href="{% url 'donorsignin' %}" class="btn btn-red btn-lg px-5 py-3 rounded-pill">Register as Donor</a>
+        <div class="hero-text animate-fade-up">
+          <span class="badge bg-danger rounded-pill mb-3 px-3 py-2 fw-bold" style="font-family: var(--font-body); letter-spacing: 1px;">RESPOND TO EMERGENCIES</span>
+          <h1>Become a Guardian.</h1>
+          <p>Hospitals are constantly in need of critical blood supplies. Register today to be alerted of local emergencies and urgent requests.</p>
+          <a href="{% url 'donorsignin' %}" class="btn btn-red btn-lg px-5 py-3 rounded-pill shadow-lg mt-2">Join the Network</a>
         </div>
       </div>
     </div>
@@ -142,40 +144,40 @@
 <!-- Portals Section -->
 <div class="container my-5" style="margin-top: -50px !important; position: relative; z-index: 10;">
   <div class="row g-4">
-    <div class="col-md-4">
+    <div class="col-md-4 animate-fade-up delay-100">
       <a href="{% url 'donorlogin' %}" class="portal-card">
         <i class="bi bi-heart-pulse portal-icon"></i>
         <h3 class="portal-title">Donor Portal</h3>
-        <p class="text-muted small mt-2 mb-0">Log in to schedule donations and track your life-saving impact.</p>
+        <p class="text-muted small mt-2 mb-0">Log in to seamlessly schedule donations, track your history, and monitor your life-saving impact.</p>
       </a>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 animate-fade-up delay-200">
       <a href="{% url 'recipientlogin' %}" class="portal-card">
         <i class="bi bi-person-hearts portal-icon"></i>
         <h3 class="portal-title">Recipient Portal</h3>
-        <p class="text-muted small mt-2 mb-0">Request blood for patients and track availability locally.</p>
+        <p class="text-muted small mt-2 mb-0">Quickly request critical blood for patients and track live availability in your local area.</p>
       </a>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 animate-fade-up delay-300">
       <a href="{% url 'hospital_login' %}" class="portal-card">
         <i class="bi bi-hospital portal-icon"></i>
         <h3 class="portal-title">Hospital Portal</h3>
-        <p class="text-muted small mt-2 mb-0">Manage camp schedules, coordinate drives, and view stock.</p>
+        <p class="text-muted small mt-2 mb-0">Manage community camp schedules, coordinate donation drives, and view comprehensive blood stock.</p>
       </a>
     </div>
   </div>
 </div>
 
 <!-- Main Information Section -->
-<div class="container my-5 pb-5">
+<div class="container my-5 pb-5 animate-fade-up delay-400">
   <div class="info-section">
     <div class="row align-items-center">
       <!-- Left Content -->
       <div class="col-lg-5 text-center text-lg-start mb-5 mb-lg-0">
-        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 mb-3 fw-bold">Why Donate?</span>
+        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 mb-3 fw-bold tracking-wide">HEALTH & VITALITY</span>
         <h2 class="mb-4">Replenish & Revitalize</h2>
-        <p class="text-muted fs-5 mb-4">After donating blood, the body works immediately to replenish the blood loss. This stimulates the production of new blood cells and in turn, helps in maintaining excellent cardiovascular health.</p>
-        <img src="{% static 'img/image/b3.jpg' %}" class="img-fluid rounded-4 shadow-sm" alt="Donation Process" style="max-height: 200px; width: 100%; object-fit: cover;">
+        <p class="text-muted fs-5 mb-4" style="line-height: 1.8;">After donating, your body immediately goes to work replacing the lost blood volume. This robust process stimulates the production of fresh, healthy blood cells, maintaining excellent cardiovascular health and overall vitality.</p>
+        <img src="{% static 'img/image/p1.png' %}" class="img-fluid rounded-4 shadow-lg" alt="Donation Process" style="max-height: 220px; width: 100%; object-fit: cover;">
       </div>
 
       <!-- Right Table -->
