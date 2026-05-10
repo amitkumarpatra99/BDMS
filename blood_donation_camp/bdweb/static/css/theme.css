@@ -84,11 +84,7 @@ header.glass-header {
 }
 
 /* Dropdown Menu - Glassmorphic */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 120%;
-  left: 0;
+.dropdown-menu {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   min-width: 200px;
@@ -97,15 +93,23 @@ header.glass-header {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255,255,255,0.8);
   z-index: 1000;
-  opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  display: none;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown-menu.show {
   display: block;
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (min-width: 992px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-item {
