@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+import logging
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
-from django.contrib.auth import authenticate
-from .utils import generate_otp, send_admin_otp ,send_otp_to_hospital_email,send_otp_to_mobile_user
+from django.contrib.auth import authenticate, logout
+from .utils import generate_otp, send_admin_otp, send_otp_to_hospital_email, send_otp_to_mobile_user, verify_otp, verify_admin_otp
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .forms import DonorLoginForm, RecipientLoginForm, BloodStockForm, HospitalOTPForm, HospitalLoginForm, HospitalClinicRegistrationForm, AdminRegistrationForm, OTPForm, RecipientRequestForm, DonationRequestForm, AdminOTPVerificationForm, AdminLoginForm, DonorRegistrationForm, RecipientRegistrationForm
+
+logger = logging.getLogger(__name__)
 from .models import OTP,AdminOTP,DonationRequest,BloodStock,HospitalClinic,HospitalBloodRequest,RecipientRequest,AdminProfile,Recipient, UserRole,Donor,CampSchedule
 import random
 import re
@@ -86,7 +88,8 @@ def donorsignin(request):
             form.save()
             return redirect('donorlogin')
         else:
-            print("Form errors:", form.errors) 
+            logger.warning("Donor signup form invalid: %s", form.errors)
+            messages.error(request, 'Please correct the highlighted errors and try again.')
     else:
         form = DonorRegistrationForm()
     return render(request, 'donationapp/donorsignin.html', {'form': form})
@@ -181,11 +184,14 @@ def hospital_login(request):
                     hospital.password = make_password(password)
                     hospital.save(update_fields=['password'])
 
-                send_otp_to_hospital_email(hospital)
-                request.session['hospital_id'] = hospital.id
-                return redirect('hospital_otp')
+                otp_sent = send_otp_to_hospital_email(hospital)
+                if otp_sent:
+                    request.session['hospital_id'] = hospital.id
+                    return redirect('hospital_otp')
 
-            form.add_error(None, 'Invalid login credentials.')
+                messages.error(request, 'Unable to send hospital OTP at this time. Please try again later.')
+            else:
+                form.add_error(None, 'Invalid login credentials.')
 
         except HospitalClinic.DoesNotExist:
             form.add_error(None, 'Invalid login credentials.')
@@ -222,17 +228,19 @@ def hospital_otp(request):
     hospital_id = request.session.get('hospital_id')
     hospital = HospitalClinic.objects.filter(id=hospital_id).first()
 
+    if not hospital:
+        messages.error(request, 'Hospital session expired. Please log in again.')
+        return redirect('hospital_login')
+
     if request.method == 'POST':
         form = HospitalOTPForm(request.POST)
         if form.is_valid():
             otp_entered = form.cleaned_data['otp']
-            latest_otp = OTP.objects.filter(mobile_number=hospital.contact).order_by('-created_at').first()
-            if latest_otp and latest_otp.otp == otp_entered and latest_otp.is_valid():
+            if verify_otp(hospital.contact, otp_entered):
                 request.session['role'] = 'clinic'
                 request.session['mobile'] = hospital.contact
                 return redirect('hospitaldashboard')
-            else:
-                form.add_error('otp', 'Invalid or expired OTP')
+            form.add_error('otp', 'Invalid or expired OTP')
     else:
         form = HospitalOTPForm()
 
@@ -280,16 +288,11 @@ def adminlogin(request):
                 request.session['email'] = email
                 request.session['role'] = 'admin'
 
-                # Generate and save OTP
-                otp = generate_otp()
-                AdminOTP.objects.create(email=email, otp=otp)
-                send_admin_otp(email, otp)
+                otp_sent = send_admin_otp(email)
+                if otp_sent:
+                    return redirect('admin_otp_verify')
 
-                print(" Form is valid. OTP will be generated now.")
-                print(" OTP saved to AdminOTP model.")
-                print(f"Admin OTP: {otp}")
-
-                return redirect('admin_otp_verify') 
+                messages.error(request, 'Unable to send admin OTP at this time. Please try again later.')
             else:
                 messages.error(request, "Invalid admin credentials.")
 
@@ -368,9 +371,16 @@ def admin_reset_password(request, admin_id):
             admin.user.save()
             return redirect('adminlist')
         else:
-            return render(request, 'admin/admin_reset_password.html', {'error': 'Passwords do not match'})
+            return render(request, 'donationapp/resetpassword.html', {'admin': admin, 'error': 'Passwords do not match'})
     
     return render(request, 'donationapp/resetpassword.html', {'admin': admin})
+
+
+def logout_view(request):
+    logout(request)
+    request.session.flush()
+    messages.success(request, 'You have been logged out successfully.')
+    return redirect('home')
 
 
 def otp(request):
@@ -384,24 +394,18 @@ def otp(request):
         form = OTPForm(request.POST)
         if form.is_valid():
             otp_input = form.cleaned_data['otp']
-            try:
-                otp_obj = OTP.objects.filter(mobile_number=mobile).latest('created_at')
-                if otp_obj.otp == otp_input and otp_obj.is_valid():
-                    if role == 'donor':
-                        if not _get_donor_by_mobile(mobile):
-                            messages.error(request, "Donor account not found. Please login again.")
-                            return redirect('donorlogin')
-                        return redirect('donordashboard')
-                    elif role == 'recipient':
-                        if not _get_recipient_by_mobile(mobile):
-                            messages.error(request, "Recipient account not found. Please login again.")
-                            return redirect('recipientlogin')
-                        return redirect('recipientdashboard')
-                   
-                else:
-                    messages.error(request, "Invalid or expired OTP.")
-            except OTP.DoesNotExist:
-                messages.error(request, "OTP not found.")
+            if verify_otp(mobile, otp_input):
+                if role == 'donor':
+                    if not _get_donor_by_mobile(mobile):
+                        messages.error(request, "Donor account not found. Please login again.")
+                        return redirect('donorlogin')
+                    return redirect('donordashboard')
+                elif role == 'recipient':
+                    if not _get_recipient_by_mobile(mobile):
+                        messages.error(request, "Recipient account not found. Please login again.")
+                        return redirect('recipientlogin')
+                    return redirect('recipientdashboard')
+            messages.error(request, "Invalid or expired OTP.")
     else:
         form = OTPForm()
 
@@ -419,13 +423,10 @@ def admin_otp_verify(request):
         form = AdminOTPVerificationForm(request.POST)
         if form.is_valid():
             otp_input = form.cleaned_data['otp']
-            otp_entry = AdminOTP.objects.filter(email=email).order_by('-created_at').first()
-
-            if otp_entry and otp_entry.otp == otp_input and otp_entry.is_valid():
+            if verify_admin_otp(email, otp_input):
                 messages.success(request, "OTP Verified Successfully.")
                 return redirect('dashboard')  # Change to your dashboard url
-            else:
-                messages.error(request, "Invalid or expired OTP.")
+            messages.error(request, "Invalid or expired OTP.")
     else:
         form = AdminOTPVerificationForm()
 

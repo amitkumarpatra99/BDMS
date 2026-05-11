@@ -29,6 +29,7 @@ urlpatterns = [
      path('dashboard', views.dashboard, name='dashboard'),
      path('hospitaldashboard', views.hospitaldashboard, name='hospitaldashboard'),
      path('recipientdashboard', views.recipientdashboard, name='recipientdashboard'),
+     path('logout/', views.logout_view, name='logout'),
      path('add-stock/', views.add_stock, name='add_stock'),
      path('manage-stock/', views.manage_stock, name='manage_stock'),
      path('delete-stock/<int:pk>/', views.delete_expired_stock, name='delete_expired_stock'),
