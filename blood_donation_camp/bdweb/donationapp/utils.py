@@ -5,6 +5,7 @@ Includes OTP generation, SMS sending, and email utilities
 
 import random
 import logging
+import re
 from typing import Optional, Dict, Any
 from datetime import timedelta
 
@@ -17,6 +18,13 @@ from django.http import JsonResponse
 from .models import OTP, AdminOTP
 
 logger = logging.getLogger(__name__)
+
+
+def normalize_mobile_number(value: str) -> str:
+    """Normalize mobile numbers by removing non-digit characters."""
+    if not value:
+        return ''
+    return re.sub(r'\D', '', str(value))
 
 
 # ============================================================================
@@ -295,14 +303,19 @@ def send_otp_to_mobile_user(mobile_number: str) -> Optional[str]:
         OTP code if successful, None otherwise
     """
     try:
+        normalized_mobile = normalize_mobile_number(mobile_number)
+        if not normalized_mobile:
+            logger.error("Attempted to send OTP to invalid mobile number")
+            return None
+
         otp = generate_otp()
-        OTP.objects.create(mobile_number=mobile_number, otp=otp)
+        OTP.objects.create(mobile_number=normalized_mobile, otp=otp)
         
-        result = send_sms_otp(mobile_number, otp)
+        result = send_sms_otp(normalized_mobile, otp)
         if result['success']:
             return otp
         
-        logger.warning(f"OTP generated but SMS failed for {mobile_number}")
+        logger.warning(f"OTP generated but SMS failed for {normalized_mobile}")
         return None
     
     except Exception as e:

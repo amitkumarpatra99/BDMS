@@ -38,11 +38,10 @@ def _get_recipient_by_mobile(mobile):
         return None
 
     last_10_digits = normalized_mobile[-10:]
-    for recipient in Recipient.objects.all():
-        recipient_mobile = _normalize_mobile(recipient.contact)
-        if recipient_mobile == normalized_mobile or recipient_mobile[-10:] == last_10_digits:
-            return recipient
-    return None
+    recipient = Recipient.objects.filter(contact__endswith=last_10_digits).first()
+    if recipient:
+        return recipient
+    return Recipient.objects.filter(contact=normalized_mobile).first()
 
 
 def _get_donor_by_mobile(mobile):
@@ -51,11 +50,10 @@ def _get_donor_by_mobile(mobile):
         return None
 
     last_10_digits = normalized_mobile[-10:]
-    for donor in Donor.objects.all():
-        donor_mobile = _normalize_mobile(donor.contact)
-        if donor_mobile == normalized_mobile or donor_mobile[-10:] == last_10_digits:
-            return donor
-    return None
+    donor = Donor.objects.filter(contact__endswith=last_10_digits).first()
+    if donor:
+        return donor
+    return Donor.objects.filter(contact=normalized_mobile).first()
 
 
 def donorlogin(request):
@@ -68,7 +66,7 @@ def donorlogin(request):
                 messages.error(request, 'Donor not found. Please register first or use your registered mobile number.')
                 return render(request, 'donationapp/donorlogin.html', {'form': form})
 
-            request.session['mobile'] = donor.contact
+            request.session['mobile'] = _normalize_mobile(donor.contact)
             request.session['role'] = 'donor'
             try:
                 send_otp_to_mobile_user(donor.contact)
@@ -124,7 +122,7 @@ def recipientlogin(request):
                 messages.error(request, 'Recipient not found. Please register first or use your registered mobile number.')
                 return render(request, 'donationapp/recipientlogin.html', {'form': form})
 
-            request.session['mobile'] = recipient.contact
+            request.session['mobile'] = _normalize_mobile(recipient.contact)
             request.session['role'] = 'recipient'
             try:
                 send_otp_to_mobile_user(recipient.contact)

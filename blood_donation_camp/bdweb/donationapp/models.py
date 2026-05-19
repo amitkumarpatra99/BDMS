@@ -3,11 +3,24 @@ Blood Donation Camp Models
 Includes models for Donors, Recipients, Hospitals, Camp Schedules, and Blood Stock management
 """
 
+import re
+
 from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from datetime import timedelta, date
+
+# ============================================================================
+# UTILITIES
+# ============================================================================
+
+
+def normalize_mobile_number(value: str) -> str:
+    if not value:
+        return ''
+    return re.sub(r'\D', '', str(value))
+
 
 # ============================================================================
 # CHOICES AND CONSTANTS
@@ -116,6 +129,10 @@ class AdminProfile(models.Model):
     def __str__(self) -> str:
         return f"Admin: {self.user.username}"
 
+    def save(self, *args, **kwargs):
+        self.mobile_number = normalize_mobile_number(self.mobile_number)
+        super().save(*args, **kwargs)
+
     def is_otp_valid(self) -> bool:
         """Check if OTP is still valid"""
         if not self.otp or not self.otp_expires_at:
@@ -167,6 +184,12 @@ class Donor(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} - {self.blood_group}"
+
+    def save(self, *args, **kwargs):
+        self.contact = normalize_mobile_number(self.contact)
+        self.pin_code = self.pin_code.strip() if self.pin_code else self.pin_code
+        self.aadhaar = self.aadhaar.strip() if self.aadhaar else self.aadhaar
+        super().save(*args, **kwargs)
 
     def is_eligible_to_donate(self) -> bool:
         """Check if donor is eligible to donate"""
@@ -245,6 +268,11 @@ class Recipient(models.Model):
     def __str__(self) -> str:
         return f"{self.name} ({self.age})"
 
+    def save(self, *args, **kwargs):
+        self.contact = normalize_mobile_number(self.contact)
+        self.pin_code = self.pin_code.strip() if self.pin_code else self.pin_code
+        super().save(*args, **kwargs)
+
 
 class RecipientRequest(models.Model):
     """Blood request from recipient"""
@@ -308,6 +336,11 @@ class HospitalClinic(models.Model):
 
     def __str__(self) -> str:
         return self.organization_name
+
+    def save(self, *args, **kwargs):
+        self.contact = normalize_mobile_number(self.contact)
+        self.pin_code = self.pin_code.strip() if self.pin_code else self.pin_code
+        super().save(*args, **kwargs)
 
 
 class HospitalBloodRequest(models.Model):
@@ -376,6 +409,10 @@ class OTP(models.Model):
     mobile_number = models.CharField(max_length=15, validators=[mobile_validator])
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        self.mobile_number = normalize_mobile_number(self.mobile_number)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "OTP"

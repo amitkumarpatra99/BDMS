@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from captcha.fields import CaptchaField
 
+from .utils import normalize_mobile_number
 from .models import (
     Donor, Recipient, DonationRequest, AdminProfile,
     HospitalClinic, HospitalBloodRequest, BloodStock,
@@ -403,6 +404,21 @@ class RecipientRegistrationForm(forms.ModelForm):
             }),
         }
 
+    def clean_contact(self):
+        contact = self.cleaned_data.get('contact')
+        normalized = normalize_mobile_number(contact)
+        if not normalized or len(normalized) < 10 or len(normalized) > 15:
+            raise ValidationError('Mobile number must be between 10 and 15 digits.')
+        if Recipient.objects.filter(contact=normalized).exists():
+            raise ValidationError('A recipient with this mobile number already exists.')
+        return normalized
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and Recipient.objects.filter(email=email).exists():
+            raise ValidationError('A recipient with this email address already exists.')
+        return email
+
 
 class RecipientRequestForm(forms.ModelForm):
     """Form for recipient blood requests"""
@@ -511,7 +527,20 @@ class HospitalClinicRegistrationForm(forms.ModelForm):
                 'placeholder': 'Full location/address',
             }),
         }
-    
+
+    def clean_contact(self):
+        contact = self.cleaned_data.get('contact')
+        normalized = normalize_mobile_number(contact)
+        if not normalized or len(normalized) < 10 or len(normalized) > 15:
+            raise ValidationError('Contact number must be between 10 and 15 digits.')
+        return normalized
+
+    def clean_login_id(self):
+        login_id = self.cleaned_data.get('login_id')
+        if login_id and HospitalClinic.objects.filter(login_id=login_id).exists():
+            raise ValidationError('This login ID is already taken.')
+        return login_id
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
@@ -613,6 +642,19 @@ class AdminRegistrationForm(forms.ModelForm):
             raise ValidationError('Password must be at least 8 characters')
         
         return cleaned_data
+
+    def clean_mobile_number(self):
+        mobile_number = self.cleaned_data.get('mobile_number')
+        normalized = normalize_mobile_number(mobile_number)
+        if not normalized or len(normalized) < 10 or len(normalized) > 15:
+            raise ValidationError('Mobile number must be between 10 and 15 digits.')
+        return normalized
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and AdminProfile.objects.filter(user__email=email).exists():
+            raise ValidationError('An admin with this email address already exists.')
+        return email
 
 
 # ============================================================================
