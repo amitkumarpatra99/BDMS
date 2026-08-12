@@ -1,4 +1,4 @@
-# Blood Donation Camp Management System
+# Blood Donation Camp Management System BDMS
 
 A comprehensive Django web application for managing blood donation camps, donors, recipients, hospitals, and blood inventory.
 
